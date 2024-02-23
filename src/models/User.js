@@ -33,7 +33,9 @@ const userSchema = new mongoose.Schema({
       enum: ['Online', 'Offline'],
       default: 'Offline'
     }
-  });
+  },
+  {timestamps: true}
+  );
   
   const User = mongoose.model('User', userSchema);
   

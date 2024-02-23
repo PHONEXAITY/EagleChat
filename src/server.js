@@ -4,10 +4,10 @@
  import dotenv from "dotenv";
  import connectDB from "./config/condb.js";
  import userRouter from "./routes/userRoutes.js";
+ import messageRouter from "./routes/messageRoutes.js";
  import cors from "cors";
+ import {app, server} from "./socket/socket.js";
  dotenv.config();
-
-const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -20,6 +20,7 @@ connectDB();
 
 //Routes
 app.use('/user',userRouter);
+app.use('/user/messages', messageRouter);
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(  "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization" );
@@ -31,6 +32,6 @@ app.use((req, res, next) => {
   });
 const PORT = process.env.PORT;
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log(`Server is Running on http://localhost:${PORT}`);
 });
