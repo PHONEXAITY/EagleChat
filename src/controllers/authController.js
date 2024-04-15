@@ -64,7 +64,8 @@ import { sendSuccess,
             }
             const token = jwt.sign({ _id:user._id }, process.env.SECRET_KEY, { expiresIn: "2h" });
             res.cookie('token', token, { httpOnly: true});
-                return sendSuccess(res,successMessage.login,token);
+
+                return sendSuccess(res,successMessage.login,{token});
           
           } catch (error) {
             console.error("error:", error.message)
