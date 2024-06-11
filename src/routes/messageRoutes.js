@@ -4,6 +4,6 @@ import { verifyToken } from "../middleware/verifytoken.js";
 const router = Router();
 
 router.post('/send/:id',verifyToken, sendMessage);
-router.get('/:id', verifyToken, getMessage)
+router.get('/:id',  getMessage);
 
 export default router;
