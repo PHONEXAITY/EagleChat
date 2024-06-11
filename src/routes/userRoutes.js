@@ -14,6 +14,6 @@ router.post('/logout', verifyToken, logout);
 router.post('/profile',verifyToken, postProfile);
 router.get('/profile', getProfile);
 router.put('/profile',verifyToken, changeProfile);
-router.get('/getUsers', getUsersForSidebar);
+router.get('/getUsers',verifyToken, getUsersForSidebar);
 
 export default router;
