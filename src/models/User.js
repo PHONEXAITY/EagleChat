@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-    username: {
+  fullname: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 50
     },
-    email: {
+    username: {
       type: String,
       required: true,
       unique: true,
@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    gender: {
+			type: String,
+			required: true,
+			enum: ["male", "female"],
+		},
     profilePicture: {
       type: String,
       default: '/public/default.webp' 

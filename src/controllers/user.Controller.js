@@ -4,38 +4,37 @@ import { sendNotFound, sendServerErr, sendSuccess } from "../service/responseHan
 
 export const getProfile = async (req, res) => {
     try {
-      const userId = req.decoded._id;
+      const userId = req.user._id;
       const user = await User.findById(userId);
       
       if (!user) {
         return sendNotFound(res, ErrorMessage.notFound);
-      }else{
-
-       return sendSuccess(res, successMessage.getOne,user.profilePicture);
+      } else {
+        return sendSuccess(res, successMessage.getOne, user.profilePicture);
       }
   
     } catch (err) {
-      return sendServerErr(res,err.message);
+      return sendServerErr(res, err.message);
     }
-  };
-  
-  export const postProfile = async (req, res) => {
+};
+
+export const postProfile = async (req, res) => {
     try {
-        const userId = req.decoded; 
+        const userId = req.user._id; 
         const { profilePicture } = req.body;
     
         if (!profilePicture) {
           return sendBadrequest(res, 'Profile data is required');
         }
     
-        const user = await User.findOne({_id:userId});
+        const user = await User.findById(userId);
     
         if (!user) {
           console.log('User not found in the database');
           return sendNotFound(res, ErrorMessage.notFound);
         }
     
-        user.profilePicture  = profilePicture;
+        user.profilePicture = profilePicture;
         await user.save();
         console.log('Profile image uploaded successfully');
     
@@ -44,11 +43,11 @@ export const getProfile = async (req, res) => {
         console.error('Error uploading profile:', error);
         return sendServerErr(res, ErrorMessage.serverError);
       }
-  };
-  
+};
+
 export const changeProfile = async (req, res) => {
     try {
-      const userId = req.decoded; 
+      const userId = req.user._id; 
         const { profilePicture } = req.body;
 
         const user = await User.findOneAndUpdate(
@@ -61,18 +60,19 @@ export const changeProfile = async (req, res) => {
             return sendNotFound(res, 'User not found');
         }
 
-        return sendSuccess(res, 'Profile updated successfully',user.profile);
+        return sendSuccess(res, 'Profile updated successfully', user.profile);
     } catch (error) {
         console.error(error);
         return sendServerErr(res, error.message);
     }
 };
+
 export const getUsersForSidebar = async (req,res) => {
     try {
-        const loggedInUserId = req.decoded._id;
+        const loggedInUserId = req.user._id;
         const filteredUsers = await User.find({_id: { $ne: loggedInUserId }}).select('-password');
 
-        return sendSuccess(res,successMessage.getAll,filteredUsers);
+        return sendSuccess(res, successMessage.getAll, filteredUsers);
     } catch (error) {
         console.error(error);
         return sendServerErr(res, error.message);

@@ -12,7 +12,7 @@ router.post('/logout', verifyToken, logout);
 
 /*User Routes*/
 router.post('/profile',verifyToken, postProfile);
-router.get('/profile', getProfile);
+router.get('/profile',verifyToken, getProfile);
 router.put('/profile',verifyToken, changeProfile);
 router.get('/getUsers',verifyToken, getUsersForSidebar);
 
