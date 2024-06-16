@@ -83,6 +83,7 @@ import { sendSuccess,
           fullName: user.fullName,
           username: user.username,
           profilePic: user.profilePic,
+          jwt: token
         });
       } catch (error) {
         console.log("Error in login controller", error.message);
